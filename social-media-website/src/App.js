@@ -1,23 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from "react";
+import Axios from "axios"
 
 function App() {
+  const [excuse, setExcuse] = useState("");
+
+  const generate = (type) => {
+    Axios.get(`https://excuser-three.vercel.app/v1/excuse/${type}`).then((res) => {
+      setExcuse(res.data[0].excuse);
+    });
+  };
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => generate('party')}>Party</button>
+      <button onClick={() => generate('family')}>Family</button>
+      <button onClick={() => generate('office')}>Office</button>
+      <h1> {excuse}</h1>
     </div>
   );
 }
